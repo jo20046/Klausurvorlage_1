@@ -12,9 +12,10 @@
         <service
             android:name=".MessungService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
-        <activity android:name=".MessungActivity" />
+        <activity android:name=".MessungActivity"
+            android:configChanges="orientation|screenSize|screenLayout|keyboardHidden"/>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

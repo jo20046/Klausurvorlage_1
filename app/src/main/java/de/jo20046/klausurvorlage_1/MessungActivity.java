@@ -4,11 +4,13 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,15 @@ public class MessungActivity extends AppCompatActivity {
 
         tvMessung = (TextView) findViewById(R.id.tv_messung);
 
+        findViewById(R.id.btn_richtung).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (serviceBound) {
+                    Toast.makeText(MessungActivity.this, "countForwards = " + messungService.getCountForwards(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         Intent intent = new Intent(this, MessungService.class);
         startService(intent);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -46,6 +57,15 @@ public class MessungActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(this, MessungService.class);
         stopService(intent);
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        if (serviceBound) {
+            messungService.richtungsumkehr();
+        }
     }
 
     private final ServiceConnection serviceConnection = new ServiceConnection() {
@@ -78,11 +98,14 @@ public class MessungActivity extends AppCompatActivity {
             case 1:
                 Toast.makeText(MessungActivity.this, "Start Messung", Toast.LENGTH_SHORT).show();
                 if(serviceBound) {
-                    tvMessung.setText(Long.toString(messungService.getCurrentTime()));
+                    tvMessung.setText(messungService.getMessung());
                 }
                 return true;
             case 2:
                 Toast.makeText(MessungActivity.this, "Richtungsumkehr", Toast.LENGTH_SHORT).show();
+                if (serviceBound) {
+                    messungService.richtungsumkehr();
+                }
                 return true;
             case 3:
                 Toast.makeText(MessungActivity.this, "Stopp Messung", Toast.LENGTH_SHORT).show();

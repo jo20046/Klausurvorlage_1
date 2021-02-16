@@ -12,12 +12,14 @@ public class MessungService extends Service {
 
     private final IBinder myBinder = new MyBinder();
     private final String DEBUG_TAG = "mytag";
-    private long currentTime;
+    private long startTime;
+    private long messwert;
+    private boolean countForwards = true;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(DEBUG_TAG, "onStartCommand() - Service");
-        currentTime = System.currentTimeMillis();
+        startTime = System.currentTimeMillis();
         return START_STICKY;
     }
 
@@ -35,7 +37,24 @@ public class MessungService extends Service {
         }
     }
 
-    public long getCurrentTime() {
-        return currentTime;
+    public boolean getCountForwards() {
+        return countForwards;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
+
+    public String getMessung() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Messwert = ");
+        long newTime = System.currentTimeMillis();
+        messwert = (newTime - startTime) / 1000;
+        sb.append(messwert);
+        return sb.toString();
+    }
+
+    public void richtungsumkehr() {
+        countForwards = !countForwards;
     }
 }
