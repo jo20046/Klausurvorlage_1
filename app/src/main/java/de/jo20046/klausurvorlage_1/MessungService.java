@@ -12,8 +12,8 @@ public class MessungService extends Service {
 
     private final IBinder myBinder = new MyBinder();
     private final String DEBUG_TAG = "mytag";
-    private long startTime;
-    private long messwert;
+    private long startTime = 0;
+    private long messwert = 0;
     private boolean countForwards = true;
 
     @Override
@@ -43,6 +43,10 @@ public class MessungService extends Service {
 
     public long getStartTime() {
         return startTime;
+    }
+
+    public long getMesswert() {
+        return messwert;
     }
 
     public String getMessung() {

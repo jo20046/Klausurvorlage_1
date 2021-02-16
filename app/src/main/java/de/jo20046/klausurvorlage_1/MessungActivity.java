@@ -76,6 +76,18 @@ public class MessungActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        Log.d(DEBUG_TAG, "onBackPressed() - Activity");
+        super.onBackPressed();
+
+        Intent intent = new Intent(MessungActivity.this, MainActivity.class);
+        if (serviceBound) {
+            intent.putExtra("messwert", messungService.getMesswert());
+        }
+        startActivity(intent);
+    }
+
+    @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 

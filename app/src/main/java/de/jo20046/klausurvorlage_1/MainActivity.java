@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
         TextView tvTimestamp = (TextView) findViewById(R.id.tv_timestamp);
         Button btnMessung = (Button) findViewById(R.id.btn_messung);
 
+
         editCityname.setOnKeyListener(new View.OnKeyListener() {
             public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
                 if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
