@@ -12,10 +12,12 @@ public class MessungService extends Service {
 
     private final IBinder myBinder = new MyBinder();
     private final String DEBUG_TAG = "mytag";
+    private long currentTime;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(DEBUG_TAG, "onStartCommand() - Service");
+        currentTime = System.currentTimeMillis();
         return START_STICKY;
     }
 
@@ -31,5 +33,9 @@ public class MessungService extends Service {
             Log.d(DEBUG_TAG, "getService() - Binder");
             return MessungService.this;
         }
+    }
+
+    public long getCurrentTime() {
+        return currentTime;
     }
 }

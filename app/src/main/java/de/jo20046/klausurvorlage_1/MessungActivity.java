@@ -9,6 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,10 +21,14 @@ public class MessungActivity extends AppCompatActivity {
     MessungService messungService;
     boolean serviceBound = false;
 
+    TextView tvMessung;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messung);
+
+        tvMessung = (TextView) findViewById(R.id.tv_messung);
 
         Intent intent = new Intent(this, MessungService.class);
         startService(intent);
@@ -72,6 +77,9 @@ public class MessungActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case 1:
                 Toast.makeText(MessungActivity.this, "Start Messung", Toast.LENGTH_SHORT).show();
+                if(serviceBound) {
+                    tvMessung.setText(Long.toString(messungService.getCurrentTime()));
+                }
                 return true;
             case 2:
                 Toast.makeText(MessungActivity.this, "Richtungsumkehr", Toast.LENGTH_SHORT).show();
