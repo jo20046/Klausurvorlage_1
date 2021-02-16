@@ -13,7 +13,6 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,17 +33,16 @@ public class MessungActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_messung);
 
-        tvMessung = (TextView) findViewById(R.id.tv_messung);
+        tvMessung = findViewById(R.id.tv_messung);
 
-        findViewById(R.id.btn_richtung).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (serviceBound) {
-                    Toast.makeText(MessungActivity.this, "countForwards = " + messungService.getCountForwards(), Toast.LENGTH_SHORT).show();
-                }
+        // Debugging: Klick auf den Button zeigt aktuelle Richtung
+        findViewById(R.id.btn_richtung).setOnClickListener(v -> {
+            if (serviceBound) {
+                Toast.makeText(MessungActivity.this, "countForwards = " + messungService.getCountForwards(), Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Eigenschaft 8: Erstellen der Notification
         notificationManager = getSystemService(NotificationManager.class);
         NotificationChannel notificationChannel1 = new NotificationChannel("channel1", "Channel 1", NotificationManager.IMPORTANCE_DEFAULT);
         notificationManager.createNotificationChannel(notificationChannel1);
@@ -55,6 +53,7 @@ public class MessungActivity extends AppCompatActivity {
         Notification notification = builder.build();
         notificationManager.notify(1, notification);
 
+        // Eigenschaft 5 & 6: Starten und Binden des Service
         Intent intent = new Intent(this, MessungService.class);
         startService(intent);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -65,8 +64,10 @@ public class MessungActivity extends AppCompatActivity {
         Log.d(DEBUG_TAG, "onDestroy() - Activity");
         super.onDestroy();
 
+        // Eigenschaft 8: Löschen der Notification
         notificationManager.cancel(1);
 
+        // Eigenschaft 5 & 6: Stoppen und unbinden des Service
         if (serviceBound) {
             unbindService(serviceConnection);
             serviceBound = false;
@@ -75,6 +76,7 @@ public class MessungActivity extends AppCompatActivity {
         stopService(intent);
     }
 
+    // Eigenschaft 9: per Intent.putExtra wird der aktuelle Messwert an die MainActivity übergeben
     @Override
     public void onBackPressed() {
         Log.d(DEBUG_TAG, "onBackPressed() - Activity");
@@ -87,6 +89,7 @@ public class MessungActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    // Eigenschaft 7: Beim Drehen des Bildschirms wird die Richtung der Stoppuhr umgekehrt
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
@@ -96,6 +99,10 @@ public class MessungActivity extends AppCompatActivity {
         }
     }
 
+    // Verbindung zum Service wird aufgebaut
+    // Jedesmal, wenn auf Funktionen des Service zugegriffen wird, ist ein if(serviceBound) voran-
+    // gestellt, sodass Fehler vermieden werden. Sobald die Verbindung fehlschlägt, wird serviceBound
+    // wieder auf false gesetzt
     private final ServiceConnection serviceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -111,6 +118,7 @@ public class MessungActivity extends AppCompatActivity {
         }
     };
 
+    // Eigenschaft 4: Erstellung des OptionsMenu
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(Menu.NONE, 1, 0, "Start Messung");
@@ -120,6 +128,7 @@ public class MessungActivity extends AppCompatActivity {
         return true;
     }
 
+    // Eigenschaft 4 & 5: Funktionen des OptionsMenu
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {

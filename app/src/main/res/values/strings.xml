@@ -4,4 +4,5 @@
     <string name="geben_sie_einen_ort_ein">Geben Sie einen Ort ein</string>
     <string name="messung">Messung</string>
     <string name="landscape">Landscape</string>
+    <string name="richtung">Richtung</string>
 </resources>

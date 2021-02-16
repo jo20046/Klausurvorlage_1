@@ -16,6 +16,7 @@ public class MessungService extends Service {
     private long messwert = 0;
     private boolean countForwards = true;
 
+    // Start des Service und Initialisierung des Timers
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d(DEBUG_TAG, "onStartCommand() - Service");
@@ -49,6 +50,7 @@ public class MessungService extends Service {
         return messwert;
     }
 
+    // Rückgabe des Messwerts durch Abgleich der aktuellen Zeit mit der Startzeit
     public String getMessung() {
         StringBuilder sb = new StringBuilder();
         sb.append("Messwert = ");
