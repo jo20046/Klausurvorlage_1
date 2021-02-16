@@ -3,4 +3,5 @@
     <string name="portrait">Portrait</string>
     <string name="geben_sie_einen_ort_ein">Geben Sie einen Ort ein</string>
     <string name="messung">Messung</string>
+    <string name="landscape">Landscape</string>
 </resources>
