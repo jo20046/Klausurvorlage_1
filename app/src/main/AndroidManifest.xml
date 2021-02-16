@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Klausurvorlage_1">
-        <activity android:name=".MessungActivity"></activity>
+        <service
+            android:name=".MessungService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".MessungActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
