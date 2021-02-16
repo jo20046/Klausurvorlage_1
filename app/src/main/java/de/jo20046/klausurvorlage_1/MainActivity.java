@@ -1,8 +1,15 @@
 package de.jo20046.klausurvorlage_1;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -10,5 +17,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        EditText editCityname = (EditText) findViewById(R.id.edit_cityname);
+        TextView tvTimestamp = (TextView) findViewById(R.id.tv_timestamp);
+
+        editCityname.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View view, int keyCode, KeyEvent keyevent) {
+                if ((keyevent.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    String str = DateTimeFormatter.ISO_LOCAL_TIME.format(LocalTime.now()) + ": " +
+                            editCityname.getText().toString();
+                    tvTimestamp.setText(str);
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }
