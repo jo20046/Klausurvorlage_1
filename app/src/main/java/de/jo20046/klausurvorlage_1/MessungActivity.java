@@ -84,7 +84,7 @@ public class MessungActivity extends AppCompatActivity {
 
         Intent intent = new Intent(MessungActivity.this, MainActivity.class);
         if (serviceBound) {
-            intent.putExtra("messwert", messungService.getMesswert());
+            intent.putExtra("messwert", messungService.getMessung());
         }
         startActivity(intent);
     }

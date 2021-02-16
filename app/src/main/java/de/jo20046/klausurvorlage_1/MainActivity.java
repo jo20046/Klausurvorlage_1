@@ -23,6 +23,11 @@ public class MainActivity extends AppCompatActivity {
         TextView tvTimestamp = findViewById(R.id.tv_timestamp);
         Button btnMessung = findViewById(R.id.btn_messung);
 
+        // Eigenschaft 9: Anzeigen des aktuellen Messwerts, falls die MainActivity durch den Back-
+        // Button der MessungActivity gestartet wurde
+        if (getIntent().getExtras() != null) {
+            tvTimestamp.setText(getIntent().getExtras().getString("messwert"));
+        }
 
         // Eigenschaft 2: Anzeigen des Timestamps nachdem Enter gedrückt wurde
         editCityname.setOnKeyListener((view, keyCode, keyevent) -> {
