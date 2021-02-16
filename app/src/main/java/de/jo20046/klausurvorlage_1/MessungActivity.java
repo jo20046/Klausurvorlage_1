@@ -1,5 +1,8 @@
 package de.jo20046.klausurvorlage_1;
 
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -24,6 +27,7 @@ public class MessungActivity extends AppCompatActivity {
     boolean serviceBound = false;
 
     TextView tvMessung;
+    NotificationManager notificationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,16 @@ public class MessungActivity extends AppCompatActivity {
             }
         });
 
+        notificationManager = getSystemService(NotificationManager.class);
+        NotificationChannel notificationChannel1 = new NotificationChannel("channel1", "Channel 1", NotificationManager.IMPORTANCE_DEFAULT);
+        notificationManager.createNotificationChannel(notificationChannel1);
+        Notification.Builder builder = new Notification.Builder(getApplicationContext(), "channel1")
+                .setSmallIcon(R.drawable.ic_stat_check)
+                .setContentTitle("Enthöfer")
+                .setContentText("Measurement Process");
+        Notification notification = builder.build();
+        notificationManager.notify(1, notification);
+
         Intent intent = new Intent(this, MessungService.class);
         startService(intent);
         bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
@@ -50,6 +64,8 @@ public class MessungActivity extends AppCompatActivity {
     protected void onDestroy() {
         Log.d(DEBUG_TAG, "onDestroy() - Activity");
         super.onDestroy();
+
+        notificationManager.cancel(1);
 
         if (serviceBound) {
             unbindService(serviceConnection);
